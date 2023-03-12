@@ -1,35 +1,16 @@
 'use client';
 import React from 'react';
-import {HStack, Icon, Stack, Text, useColorModeValue} from '@chakra-ui/react';
-import NonIdealState from '@/components/non-ideal-state';
-import {FiActivity} from 'react-icons/fi';
+import {Card, Center, Flex, Stack, useColorModeValue} from '@chakra-ui/react';
+import ActivityList from '@/components/activity-list';
+import FileUpload from '@/components/file-upload';
 
 export default function Home() {
-	const color = useColorModeValue('gray.500', 'gray.300');
-
 	return (
-		<Stack flex={1}>
-			<Stack
-				width='400px'
-				borderRightWidth='1px'
-				flex={1}
-				paddingY={2}
-				paddingX={4}
-			>
-				<HStack paddingY={2}>
-					<Icon as={FiActivity} color={color} />
-					<Text fontSize='sm' color={color}>
-						Activity
-					</Text>
-				</HStack>
-				<Stack flex={1} alignItems='center' justifyContent='center'>
-					<NonIdealState
-						icon={FiActivity}
-						title='No changes found'
-						description='Add a file and start animating'
-					></NonIdealState>
-				</Stack>
+		<Flex flex={1}>
+			<ActivityList />
+			<Stack flex={1} padding={4} justifyContent='center'>
+				<FileUpload />
 			</Stack>
-		</Stack>
+		</Flex>
 	);
 }
