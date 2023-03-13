@@ -32,7 +32,7 @@ export default function ActivityList() {
 						)}
 						borderRadius='md'
 					>
-						⌘T
+						⌘A
 					</Text>
 				</HStack>
 				<Stack flex={1} alignItems='center' justifyContent='center'>

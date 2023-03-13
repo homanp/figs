@@ -21,6 +21,7 @@ export default function FileUpload() {
 		handleSubmit,
 		register,
 		watch,
+		reset,
 	} = useForm();
 
 	const files = watch('file');
@@ -64,7 +65,8 @@ export default function FileUpload() {
 							size='xs'
 							icon={<Icon as={FiX} fontSize='md' />}
 							variant='ghost'
-							color='red'
+							color='orange'
+							onClick={reset}
 						/>
 						<Text fontSize='sm'>{files[0].name}</Text>
 					</HStack>
