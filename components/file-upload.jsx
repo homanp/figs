@@ -1,4 +1,5 @@
 import React, {useCallback} from 'react';
+import PropTypes from 'prop-types';
 import {
 	Button,
 	HStack,
@@ -8,13 +9,13 @@ import {
 	Text,
 	useColorModeValue,
 } from '@chakra-ui/react';
-import {FiChevronRight, FiImage, FiUpload, FiX} from 'react-icons/fi';
+import {FiChevronRight, FiUpload, FiX} from 'react-icons/fi';
 import {useForm} from 'react-hook-form';
 import ky from 'ky';
 import FilePicker from './file-picker';
 import {uploadFile} from '@/lib/upload-files';
 
-export default function FileUpload() {
+export default function FileUpload({onFileUpload}) {
 	const color = useColorModeValue('gray.500', 'gray.300');
 	const {
 		formState: {isSubmitting},
@@ -23,17 +24,22 @@ export default function FileUpload() {
 		watch,
 		reset,
 	} = useForm();
-
 	const files = watch('file');
-	const onSubmit = useCallback(async ({file: files}) => {
-		const [file] = files;
 
-		const {data: uploadUrl} = await ky
-			.post('/api/upload-url', {searchParams: {type: file.type}})
-			.json();
+	const onSubmit = useCallback(
+		async ({file: files}) => {
+			const [file] = files;
 
-		const fileUrl = await uploadFile(file, uploadUrl);
-	}, []);
+			const {data: uploadUrl} = await ky
+				.post('/api/upload-url', {searchParams: {type: file.type}})
+				.json();
+
+			const fileUrl = await uploadFile(file, uploadUrl);
+
+			onFileUpload(fileUrl);
+		},
+		[onFileUpload]
+	);
 
 	return (
 		<Stack as='form' onSubmit={handleSubmit(onSubmit)}>
@@ -52,8 +58,12 @@ export default function FileUpload() {
 					<Stack justifyContent='center' alignItems='center'>
 						<Icon as={FiUpload} />
 						<Text fontSize='sm'>Upload SVG</Text>
-						<Text fontSize='sm' color={color}>
-							Drag n&apos; drop files or click to select
+						<Text
+							fontSize='sm'
+							color={color}
+							textDecoration='underline'
+						>
+							Select files to upload
 						</Text>
 					</Stack>
 				</Stack>
@@ -83,3 +93,7 @@ export default function FileUpload() {
 		</Stack>
 	);
 }
+
+FileUpload.propTypes = {
+	onFileUpload: PropTypes.func,
+};

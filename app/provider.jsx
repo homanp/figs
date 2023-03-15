@@ -3,6 +3,7 @@ import React from 'react';
 import {Inter} from 'next/font/google';
 import {CacheProvider} from '@chakra-ui/next-js';
 import {ChakraProvider} from '@chakra-ui/react';
+import {Provider} from 'jotai';
 import AppContainer from './container';
 import theme from '@/lib/theme';
 
@@ -13,7 +14,9 @@ export default function AppProvider({children}) {
 		<body className={inter.className}>
 			<CacheProvider>
 				<ChakraProvider theme={theme}>
-					<AppContainer>{children}</AppContainer>
+					<Provider>
+						<AppContainer>{children}</AppContainer>
+					</Provider>
 				</ChakraProvider>
 			</CacheProvider>
 		</body>
